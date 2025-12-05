@@ -1,0 +1,18 @@
+# Ignore l'environnement virtuel
+venv/
+env/
+
+# Ignore les fichiers compilés Python
+__pycache__/
+*.pyc
+
+# Ignore les fichiers système Mac
+.DS_Store
+
+# Ignore les clés secrètes (si tu en as)
+.env
+config_local.py
+
+# OPTIONNEL : Si tes fichiers de données générés sont trop gros (>100Mo), décommente ces lignes :
+# data/embeddings.npy
+# data/faiss_index.bin
