@@ -1,18 +1,78 @@
-# Ignore l'environnement virtuel
+# Virtual environment
 venv/
 env/
+ENV/
+.venv/
 
-# Ignore les fichiers compilés Python
+# Python
 __pycache__/
 *.pyc
+*.pyo
+*.pyd
+.Python
 
-# Ignore les fichiers système Mac
-.DS_Store
-
-# Ignore les clés secrètes (si tu en as)
+# Environment variables and secrets
 .env
+.env.local
+.env.*.local
 config_local.py
+*.key
+*.pem
 
-# OPTIONNEL : Si tes fichiers de données générés sont trop gros (>100Mo), décommente ces lignes :
+# System files
+.DS_Store
+Thumbs.db
+.AppleDouble
+.LSOverride
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Experimental/versioned embeddings (work in progress)
+data/embeddings_finetuned.npy
+data/embeddings_v0.npy
+data/embeddings_v1.npy
+data/embeddings_v2.npy
+data/embeddings_v3.npy
+data/embeddings_*.npy
+
+# Experimental/finetuned models (work in progress)
+models/movie_finder_finetuned_*.pth
+models/movie_finder_*.pth
+models/*.pth
+
+# Version comparison and experimental scripts
+*_versions.py
+compare_*.py
+generate_all_*.py
+
+# Logs
+*.log
+logs/
+*.log.*
+
+# Testing
+.pytest_cache/
+.coverage
+htmlcov/
+.tox/
+.hypothesis/
+
+# Distribution / packaging
+dist/
+build/
+*.egg-info/
+*.egg
+wheels/
+
+# Jupyter Notebook
+.ipynb_checkpoints
+*.ipynb
+
+# Production data files (optional - uncomment if too large)
 # data/embeddings.npy
 # data/faiss_index.bin
