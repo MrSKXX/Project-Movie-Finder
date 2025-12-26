@@ -1,52 +1,102 @@
-# --- 1. DOSSIER BROUILLON (À ne jamais envoyer) ---
-_ARCHIVES_BROUILLON/
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
 
-# --- 2. Environnement Virtuel & Python ---
+# Virtual Environment
 venv/
 env/
-.venv/
-__pycache__/
-*.pyc
-*.pyo
-*.pyd
-.Python
+ENV/
+env.bak/
+venv.bak/
 
-# --- 3. Variables d'environnement (SÉCURITÉ) ---
-# Ne jamais envoyer votre clé API TMDB !
+# Environment Variables
 .env
 .env.local
 .env.*.local
-config_local.py
 
-# --- 4. Données Générées (Lourdes) ---
-# On garde movies.csv pour que le prof ait les données de base
-# Mais on ignore les vecteurs et index qui se recréent via le script
-data/embeddings.npy
-data/embeddings_*.npy
-data/faiss_index.bin
-data/training_pairs.csv
-
-# --- 5. Modèles d'Intelligence Artificielle ---
-# Les modèles pèsent des centaines de Mo, GitHub les bloquerait
-models/
-# Exception : On peut garder un fichier vide pour maintenir le dossier
-!models/.gitkeep
-
-# --- 6. Fichiers Système & IDE ---
-.DS_Store
-Thumbs.db
+# IDE
 .vscode/
 .idea/
 *.swp
+*.swo
+*~
+.DS_Store
 
-# --- 7. Fichiers Temporaires & Logs ---
+# Data Files - EXCLURE FICHIERS GÉNÉRÉS
+data/embeddings.npy
+data/embeddings_trained.npy
+data/faiss_index.bin
+data/faiss_index_trained.bin
+data/processed/*.npy
+data/processed/*.bin
+data/processed/*.csv
+data/raw/*.csv
+
+# Garder structure
+!data/raw/.gitkeep
+!data/processed/.gitkeep
+!data/README.md
+
+# Models - EXCLURE COMPLÈTEMENT
+models/base/
+models/fine_tuned/
+models/movie_finder_mnrl_ep1/
+models/movie_finder_mnrl_ep3/
+
+# Garder structure uniquement
+!models/.gitkeep
+!models/README.md
+!models/fine_tuned/.gitkeep
+
+# Experiments
+experiments/archived/
+experiments/checkpoints/
+experiments/notebooks/.ipynb_checkpoints/
+experiments/results/*.csv
+
+# Garder structure
+!experiments/archived/.gitkeep
+!experiments/checkpoints/.gitkeep
+!experiments/notebooks/.gitkeep
+!experiments/results/.gitkeep
+
+# Logs
 *.log
 logs/
-.pytest_cache/
-.coverage
-htmlcov/
+*.out
 
-# --- 8. Scripts expérimentaux spécifiques (Votre liste) ---
-*_versions.py
-compare_*.py
-generate_all_*.py
+# Jupyter
+.ipynb_checkpoints/
+*.ipynb
+
+# OS
+Thumbs.db
+.DS_Store
+
+# Temporary
+*.tmp
+*.temp
+temp/
+tmp/
+
+# Résultats
+results/
+!results/.gitkeep

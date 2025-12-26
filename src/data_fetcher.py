@@ -1,20 +1,40 @@
+"""
+Module de récupération des données depuis l'API TMDB
+Télécharge les métadonnées des films populaires
+"""
+
 import requests
 import pandas as pd
 import time
 from tqdm import tqdm
-import config
 import os
+import sys
+
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import config
+
 
 class TMDbFetcher:
+    """Récupère les données de films depuis l'API TMDB"""
+    
     def __init__(self, api_key):
         self.api_key = api_key
         self.base_url = config.TMDB_BASE_URL
         self.session = requests.Session()
         
     def fetch_popular_movies(self, num_pages=50):
+        """
+        Récupère les films populaires sur plusieurs pages
+        
+        Args:
+            num_pages: Nombre de pages à récupérer (20 films par page)
+        
+        Returns:
+            Liste de dictionnaires contenant les métadonnées des films
+        """
         movies = []
         
-        print(f"Fetching {num_pages} pages of popular movies...")
+        print(f"Récupération de {num_pages} pages de films populaires...")
         for page in tqdm(range(1, num_pages + 1)):
             try:
                 url = f"{self.base_url}/movie/popular"
@@ -36,12 +56,21 @@ class TMDbFetcher:
                 time.sleep(0.25)
                 
             except Exception as e:
-                print(f"\nError fetching page {page}: {e}")
+                print(f"\nErreur page {page}: {e}")
                 continue
                 
         return movies
     
     def fetch_movie_details(self, movie_id):
+        """
+        Récupère les détails complets d'un film
+        
+        Args:
+            movie_id: Identifiant TMDB du film
+        
+        Returns:
+            Dictionnaire avec titre, plot, genres, keywords, etc.
+        """
         try:
             url = f"{self.base_url}/movie/{movie_id}"
             params = {
@@ -66,28 +95,42 @@ class TMDbFetcher:
                 'poster_path': data.get('poster_path', '')
             }
             
-        except Exception as e:
+        except Exception:
             return None
     
     def save_to_csv(self, movies, filename):
+        """
+        Sauvegarde les films dans un fichier CSV
+        
+        Args:
+            movies: Liste de dictionnaires de films
+            filename: Chemin du fichier de sortie
+        
+        Returns:
+            DataFrame pandas des films sauvegardés
+        """
         df = pd.DataFrame(movies)
         df = df[df['plot'].str.len() > 20]
         df = df.drop_duplicates(subset=['id'])
+        
+        os.makedirs(os.path.dirname(filename), exist_ok=True)
         df.to_csv(filename, index=False)
-        print(f"\nSaved {len(df)} movies to {filename}")
+        
+        print(f"\n{len(df)} films sauvegardés dans {filename}")
         return df
 
+
 def main():
-    os.makedirs(config.DATA_DIR, exist_ok=True)
-    
+    """Point d'entrée pour récupérer les données TMDB"""
     fetcher = TMDbFetcher(config.TMDB_API_KEY)
     movies = fetcher.fetch_popular_movies(num_pages=200)
     df = fetcher.save_to_csv(movies, config.MOVIES_CSV)
     
-    print(f"\nDataset summary:")
-    print(f"Total movies: {len(df)}")
-    print(f"\nSample:")
+    print(f"\nRésumé du dataset:")
+    print(f"Total films: {len(df)}")
+    print(f"\nÉchantillon:")
     print(df[['title', 'year', 'genres']].head())
+
 
 if __name__ == "__main__":
     main()
